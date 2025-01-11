@@ -6,7 +6,9 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
 
+    [Header("Movement")]
     [SerializeField] private float moveSpeed;
+    [SerializeField] private float jumpForce;
 
     private float xInput;
     
@@ -19,6 +21,11 @@ public class Player : MonoBehaviour
     private void Update()
     {
         xInput = Input.GetAxisRaw("Horizontal");
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpForce);
+        }
         
         HandleAnimations();
         HandleMovement();
