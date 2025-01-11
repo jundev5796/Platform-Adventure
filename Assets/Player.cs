@@ -1,4 +1,5 @@
 using System;
+// using System.Numerics;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -9,6 +10,11 @@ public class Player : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpForce;
+
+    [Header("Collision Info")]
+    [SerializeField] private float groundCheckDistance;
+    [SerializeField] private LayerMask whatIsGround;
+    private bool isGrounded;
 
     private float xInput;
     
@@ -22,7 +28,9 @@ public class Player : MonoBehaviour
     {
         xInput = Input.GetAxisRaw("Horizontal");
 
-        if (Input.GetKey(KeyCode.Space))
+        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
+
+        if (Input.GetKey(KeyCode.Space) && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpForce);
         }
@@ -40,5 +48,10 @@ public class Player : MonoBehaviour
     private void HandleMovement() 
     {
         rb.linearVelocity = new Vector2(xInput * moveSpeed, rb.linearVelocityY);
+    }
+
+    private void OnDrawGizmos() 
+    {
+        Gizmos.DrawLine(transform.position, new Vector2(transform.position.x, transform.position.y - groundCheckDistance));
     }
 }
