@@ -37,15 +37,10 @@ public class Player : MonoBehaviour
         xInput = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetKey(KeyCode.Space) && isGrounded)
-        {
             Jump();
-        }
     }
 
-    private void Jump()
-    {
-        rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpForce);
-    }
+    private void Jump() => rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpForce);
 
     private void HandleCollision()
     {
