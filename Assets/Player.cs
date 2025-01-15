@@ -7,14 +7,17 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
 
-    [Header("Movement")]
+    [Header("Movement Details")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpForce;
+    [SerializeField] private float doubleJumpForce;
+    private bool canDoubleJump;
 
     [Header("Collision Info")]
     [SerializeField] private float groundCheckDistance;
     [SerializeField] private LayerMask whatIsGround;
     private bool isGrounded;
+    private bool isAirborne;
 
     private float xInput;
 
@@ -29,6 +32,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        UpdateAirboneStatus();
+
         HandleCollision();
         HandleInput();
         HandleMovement();
@@ -36,15 +41,52 @@ public class Player : MonoBehaviour
         HandleAnimations();
     }
 
+    private void UpdateAirboneStatus()
+    {
+        if (isGrounded && isAirborne)
+            HandleLanding();
+
+        if (!isGrounded && !isAirborne)
+            BecomeAirborne();
+    }
+
+    private void BecomeAirborne()
+    {
+        isAirborne = true;
+    }
+
+    private void HandleLanding()
+    {
+        isAirborne = false;
+        canDoubleJump = true;
+    }
+
     private void HandleInput()
     {
         xInput = Input.GetAxisRaw("Horizontal");
 
-        if (Input.GetKey(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space))
+            JumpButton();
+    }
+
+    private void JumpButton()
+    {
+        if (isGrounded)
+        {
             Jump();
+        }
+        else if (canDoubleJump)
+        {
+            DoubleJump();
+        }
     }
 
     private void Jump() => rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpForce);
+    private void DoubleJump()
+    {
+        canDoubleJump = false;
+        rb.linearVelocity = new Vector2(rb.linearVelocityX, doubleJumpForce);
+    }
 
     private void HandleCollision()
     {
