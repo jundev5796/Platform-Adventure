@@ -36,11 +36,11 @@ public class Player : MonoBehaviour
     {
         UpdateAirboneStatus();
 
-        HandleCollision();
         HandleInput();
         HandleWallSlide();
         HandleMovement();
         HandleFlip();
+        HandleCollision();
         HandleAnimations();
     }
 
