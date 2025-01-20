@@ -116,12 +116,15 @@ public class Player : MonoBehaviour
 
     private void HandleMovement() 
     {
+        if (isWallDetected)
+            return;
+
         rb.linearVelocity = new Vector2(xInput * moveSpeed, rb.linearVelocityY);
     }
 
     private void HandleFlip()
     {
-        if (rb.linearVelocityX < 0 && facingRight || rb.linearVelocityX > 0 && !facingRight)
+        if (xInput < 0 && facingRight || xInput > 0 && !facingRight)
             Flip();
     }
 
