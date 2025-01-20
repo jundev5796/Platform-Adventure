@@ -38,9 +38,18 @@ public class Player : MonoBehaviour
 
         HandleCollision();
         HandleInput();
+        HandleWallSlide();
         HandleMovement();
         HandleFlip();
         HandleAnimations();
+    }
+
+    private void HandleWallSlide()
+    {
+        if (isWallDetected && rb.linearVelocityY < 0)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocityX, rb.linearVelocityY * 0.5f);
+        }
     }
 
     private void UpdateAirboneStatus()
