@@ -111,6 +111,7 @@ public class Player : MonoBehaviour
         // anim.SetBool("isRunning", rb.linearVelocityX != 0);
         anim.SetFloat("yVelocity", rb.linearVelocityY);
         anim.SetBool("isGrounded", isGrounded);
+        anim.SetBool("isWallDetected", isWallDetected);
     }
 
     private void HandleMovement() 
