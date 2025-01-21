@@ -98,7 +98,7 @@ public class Player : MonoBehaviour
         {
             Jump();
         }
-        else if (isWallDetected)
+        else if (isWallDetected && !isGrounded)
         {
             WallJump();
         }
@@ -111,14 +111,17 @@ public class Player : MonoBehaviour
     private void Jump() => rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpForce);
     private void DoubleJump()
     {
+        isWallJumping = false;
         canDoubleJump = false;
         rb.linearVelocity = new Vector2(rb.linearVelocityX, doubleJumpForce);
     }
 
     private void WallJump()
     {
+        canDoubleJump = true;
         rb.linearVelocity = new Vector2(wallJumpForce.x * -facingDir, wallJumpForce.y);
         Flip();
+        StopAllCoroutines();
         StartCoroutine(WallJumpRoutine());
     }
 
