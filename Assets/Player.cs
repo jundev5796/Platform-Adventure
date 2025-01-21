@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+
 // using System.Numerics;
 using UnityEngine;
 
@@ -7,13 +9,18 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
 
-    [Header("Movement Details")]
+    [Header("Movement")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpForce;
     [SerializeField] private float doubleJumpForce;
     private bool canDoubleJump;
 
-    [Header("Collision Info")]
+    [Header("Wall Interactions")]
+    [SerializeField] private float wallJumpDuration = 0.6f;
+    [SerializeField] private Vector2 wallJumpForce;
+    private bool isWallJumping;
+
+    [Header("Collision")]
     [SerializeField] private float groundCheckDistance;
     [SerializeField] private float wallCheckDistance;
     [SerializeField] private LayerMask whatIsGround;
@@ -91,6 +98,10 @@ public class Player : MonoBehaviour
         {
             Jump();
         }
+        else if (isWallDetected)
+        {
+            WallJump();
+        }
         else if (canDoubleJump)
         {
             DoubleJump();
@@ -102,6 +113,21 @@ public class Player : MonoBehaviour
     {
         canDoubleJump = false;
         rb.linearVelocity = new Vector2(rb.linearVelocityX, doubleJumpForce);
+    }
+
+    private void WallJump()
+    {
+        rb.linearVelocity = new Vector2(wallJumpForce.x * -facingDir, wallJumpForce.y);
+        StartCoroutine(WallJumpRoutine());
+    }
+
+    private IEnumerator WallJumpRoutine()
+    {
+        isWallJumping = true;
+
+        yield return new WaitForSeconds(wallJumpDuration);
+
+        isWallJumping = false;
     }
 
     private void HandleCollision()
@@ -122,6 +148,9 @@ public class Player : MonoBehaviour
     private void HandleMovement() 
     {
         if (isWallDetected)
+            return;
+
+        if (isWallJumping)
             return;
 
         rb.linearVelocity = new Vector2(xInput * moveSpeed, rb.linearVelocityY);
