@@ -118,6 +118,7 @@ public class Player : MonoBehaviour
     private void WallJump()
     {
         rb.linearVelocity = new Vector2(wallJumpForce.x * -facingDir, wallJumpForce.y);
+        Flip();
         StartCoroutine(WallJumpRoutine());
     }
 
