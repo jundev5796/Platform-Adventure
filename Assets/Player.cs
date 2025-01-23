@@ -50,9 +50,6 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
-            Knockback();
-
         UpdateAirboneStatus();
 
         if (isKnocked)
@@ -68,8 +65,12 @@ public class Player : MonoBehaviour
 
     private void Knockback()
     {
+        if (isKnocked)
+            return;
+
         StartCoroutine(KnockbackRoutine());
         anim.SetTrigger("Knockback");
+        rb.linearVelocity = new Vector2(knockbackPower.x * -facingDir, knockbackPower.y);
     }
 
     private void HandleWallSlide()
