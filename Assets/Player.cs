@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
+
 
 // using System.Numerics;
 using UnityEngine;
@@ -19,6 +21,12 @@ public class Player : MonoBehaviour
     [SerializeField] private float wallJumpDuration = 0.6f;
     [SerializeField] private Vector2 wallJumpForce;
     private bool isWallJumping;
+
+    [Header("Knockback")]
+    [SerializeField] private float knockbackDuration = 1;
+    [SerializeField] private Vector2 knockbackPower;
+    private bool isKnocked;
+    private bool canBeKnocked;
 
     [Header("Collision")]
     [SerializeField] private float groundCheckDistance;
@@ -42,7 +50,13 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.K))
+            Knockback();
+
         UpdateAirboneStatus();
+
+        if (isKnocked)
+            return;
 
         HandleInput();
         HandleWallSlide();
@@ -50,6 +64,12 @@ public class Player : MonoBehaviour
         HandleFlip();
         HandleCollision();
         HandleAnimations();
+    }
+
+    private void Knockback()
+    {
+        StartCoroutine(KnockbackRoutine());
+        anim.SetTrigger("Knockback");
     }
 
     private void HandleWallSlide()
@@ -132,6 +152,17 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(wallJumpDuration);
 
         isWallJumping = false;
+    }
+
+    private IEnumerator KnockbackRoutine()
+    {
+        canBeKnocked = false;
+        isKnocked = true;
+
+        yield return new WaitForSeconds(knockbackDuration);
+
+        canBeKnocked = true;
+        isKnocked = false;
     }
 
     private void HandleCollision()
