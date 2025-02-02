@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
 
     [Header("Buffer Jump")]
     [SerializeField] private float bufferJumpWindow = 0.25f;
-    private float bufferJumpPressed = -1;
+    private float bufferJumpActivated = -1;
 
     [Header("Wall Interactions")]
     [SerializeField] private float wallJumpDuration = 0.6f;
@@ -30,7 +30,6 @@ public class Player : MonoBehaviour
     [SerializeField] private float knockbackDuration = 1;
     [SerializeField] private Vector2 knockbackPower;
     private bool isKnocked;
-    private bool canBeKnocked;
 
     [Header("Collision")]
     [SerializeField] private float groundCheckDistance;
@@ -125,14 +124,14 @@ public class Player : MonoBehaviour
     private void RequestBufferJump()
     {
         if (isAirborne)
-            bufferJumpPressed = Time.time;
+            bufferJumpActivated = Time.time;
     }
 
     private void AttemptBufferJump()
     {
-        if (Time.time < bufferJumpPressed + bufferJumpWindow)
+        if (Time.time < bufferJumpActivated + bufferJumpWindow)
         {
-            bufferJumpPressed = 0;
+            bufferJumpActivated = 0;
             Jump();
         }
     }
@@ -181,12 +180,10 @@ public class Player : MonoBehaviour
 
     private IEnumerator KnockbackRoutine()
     {
-        canBeKnocked = false;
         isKnocked = true;
 
         yield return new WaitForSeconds(knockbackDuration);
 
-        canBeKnocked = true;
         isKnocked = false;
     }
 
