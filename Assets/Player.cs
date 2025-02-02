@@ -17,9 +17,11 @@ public class Player : MonoBehaviour
     [SerializeField] private float doubleJumpForce;
     private bool canDoubleJump;
 
-    [Header("Buffer Jump")]
+    [Header("Buffer & Coyote Jump")]
     [SerializeField] private float bufferJumpWindow = 0.25f;
     private float bufferJumpActivated = -1;
+    [SerializeField] private float coyoteJumpWindow = 0.5f;
+    private float coyoteJumpActivated = -1;
 
     [Header("Wall Interactions")]
     [SerializeField] private float wallJumpDuration = 0.6f;
@@ -99,6 +101,11 @@ public class Player : MonoBehaviour
     private void BecomeAirborne()
     {
         isAirborne = true;
+
+        if (rb.linearVelocityY < 0)
+        {
+            ActivateCoyoteJump();
+        }
     }
 
     private void HandleLanding()
@@ -131,14 +138,19 @@ public class Player : MonoBehaviour
     {
         if (Time.time < bufferJumpActivated + bufferJumpWindow)
         {
-            bufferJumpActivated = 0;
+            bufferJumpActivated = Time.time - 1;
             Jump();
         }
     }
 
+    private void ActivateCoyoteJump() => coyoteJumpActivated = Time.time;
+    private void CancelCoyoteJump() => coyoteJumpActivated = Time.time - 1;
+
     private void JumpButton()
     {
-        if (isGrounded)
+        bool coyoteJumpAvailable = Time.time < coyoteJumpActivated + coyoteJumpWindow;
+
+        if (isGrounded || coyoteJumpAvailable)
         {
             Jump();
         }
@@ -150,6 +162,8 @@ public class Player : MonoBehaviour
         {
             DoubleJump();
         }
+
+        CancelCoyoteJump();
     }
 
     private void Jump() => rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpForce);
