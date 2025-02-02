@@ -78,15 +78,11 @@ public class Player : MonoBehaviour
         rb.linearVelocity = new Vector2(knockbackPower.x * -facingDir, knockbackPower.y);
     }
 
-    private void HandleWallSlide()
+    private IEnumerator KnockbackRoutine()
     {
-        bool canWallSlide = isWallDetected && rb.linearVelocityY < 0; 
-        float yModifier = yInput < 0 ? 1 : 0.05f;
-
-        if (canWallSlide == false)
-            return;
-
-        rb.linearVelocity = new Vector2(rb.linearVelocityX, rb.linearVelocityY * yModifier);
+        isKnocked = true;
+        yield return new WaitForSeconds(knockbackDuration);
+        isKnocked = false;
     }
 
     private void UpdateAirboneStatus()
@@ -128,12 +124,12 @@ public class Player : MonoBehaviour
         }
     }
 
+    #region Buffer & Coyote Jump
     private void RequestBufferJump()
     {
         if (isAirborne)
             bufferJumpActivated = Time.time;
     }
-
     private void AttemptBufferJump()
     {
         if (Time.time < bufferJumpActivated + bufferJumpWindow)
@@ -142,9 +138,9 @@ public class Player : MonoBehaviour
             Jump();
         }
     }
-
     private void ActivateCoyoteJump() => coyoteJumpActivated = Time.time;
     private void CancelCoyoteJump() => coyoteJumpActivated = Time.time - 1;
+    #endregion
 
     private void JumpButton()
     {
@@ -178,7 +174,9 @@ public class Player : MonoBehaviour
     {
         canDoubleJump = true;
         rb.linearVelocity = new Vector2(wallJumpForce.x * -facingDir, wallJumpForce.y);
+
         Flip();
+        
         StopAllCoroutines();
         StartCoroutine(WallJumpRoutine());
     }
@@ -192,13 +190,15 @@ public class Player : MonoBehaviour
         isWallJumping = false;
     }
 
-    private IEnumerator KnockbackRoutine()
+    private void HandleWallSlide()
     {
-        isKnocked = true;
+        bool canWallSlide = isWallDetected && rb.linearVelocityY < 0; 
+        float yModifier = yInput < 0 ? 1 : 0.05f;
 
-        yield return new WaitForSeconds(knockbackDuration);
+        if (canWallSlide == false)
+            return;
 
-        isKnocked = false;
+        rb.linearVelocity = new Vector2(rb.linearVelocityX, rb.linearVelocityY * yModifier);
     }
 
     private void HandleCollision()
