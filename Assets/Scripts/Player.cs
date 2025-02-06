@@ -68,7 +68,7 @@ public class Player : MonoBehaviour
         HandleAnimations();
     }
 
-    private void Knockback()
+    public void Knockback()
     {
         if (isKnocked)
             return;
