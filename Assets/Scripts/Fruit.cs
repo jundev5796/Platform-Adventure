@@ -1,7 +1,10 @@
 using UnityEngine;
 
+public enum FruitType { Apple, Banana, Cherry, Kiwi, Melon, Orange, Pineapple, Strawberry }
+
 public class Fruit : MonoBehaviour
 {
+    [SerializeField] private FruitType fruitType;
     private GameManager gameManager;
     private Animator anim;
 
@@ -13,14 +16,22 @@ public class Fruit : MonoBehaviour
     private void Start()
     {
         gameManager = GameManager.instance;
-        SetRandomLook();
+        SetRandomLookIfNeeded();
     }
 
-    private void SetRandomLook()
+    private void SetRandomLookIfNeeded()
     {
+        if (gameManager.FruitsHaveRandomLook() == false)
+        {
+            UpdateFruitVisuals();
+            return;
+        }
+
         int randomIndex = Random.Range(0, 8);
         anim.SetFloat("fruitIndex", randomIndex);
     }
+
+    private void UpdateFruitVisuals() => anim.SetFloat("fruitIndex", (int)fruitType);
 
     private void OnTriggerEnter2D(Collider2D collision) 
     {
