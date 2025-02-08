@@ -13,6 +13,13 @@ public class Fruit : MonoBehaviour
     private void Start()
     {
         gameManager = GameManager.instance;
+        SetRandomLook();
+    }
+
+    private void SetRandomLook()
+    {
+        int randomIndex = Random.Range(0, 8);
+        anim.SetFloat("fruitIndex", randomIndex);
     }
 
     private void OnTriggerEnter2D(Collider2D collision) 
