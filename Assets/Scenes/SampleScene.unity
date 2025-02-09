@@ -18418,6 +18418,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
+  deathVfx: {fileID: 7681433851653886475, guid: 0da061d8837988f42aef53f467f37c7d, type: 3}
 --- !u!1001 &8841527201253799573
 PrefabInstance:
   m_ObjectHideFlags: 0
