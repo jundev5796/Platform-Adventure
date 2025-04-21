@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c34b3798c4c74c4baa4776897245294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fruitType: 1
+  fruitType: 7
   pickupVfx: {fileID: 7645631474482353320, guid: db97e507050f7a241a7a5be264565b9d, type: 3}
 --- !u!58 &6708967516417821206
 CircleCollider2D:
