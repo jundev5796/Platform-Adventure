@@ -18553,6 +18553,7 @@ MonoBehaviour:
   fruitsAreRandom: 0
   fruitsCollected: 0
   totalFruits: 0
+  canReactivate: 0
 --- !u!4 &1416668169
 Transform:
   m_ObjectHideFlags: 0
@@ -18709,7 +18710,7 @@ GameObject:
   - component: {fileID: 1732292336}
   - component: {fileID: 1732292335}
   - component: {fileID: 1732292339}
-  - component: {fileID: 1732292338}
+  - component: {fileID: 1732292340}
   m_Layer: 0
   m_Name: FinishPoint
   m_TagString: Untagged
@@ -18809,18 +18810,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1732292338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1732292334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c688700cbd1038f499c3ac82f5f9eb3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &1732292339
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -18867,6 +18856,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 4, y: 4}
   m_EdgeRadius: 0
+--- !u!114 &1732292340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1732292334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0820161f95a63d47842ac265eda95b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4189890461697526176
 PrefabInstance:
   m_ObjectHideFlags: 0
