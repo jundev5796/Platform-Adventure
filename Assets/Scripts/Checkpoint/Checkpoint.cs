@@ -5,7 +5,7 @@ public class Checkpoint : MonoBehaviour
     private Animator anim;
     private bool active;
 
-    //[SerializeField] private bool canBeReactivated;
+    [SerializeField] private bool canBeReactivated;
 
 
     private void Awake()
@@ -14,9 +14,15 @@ public class Checkpoint : MonoBehaviour
     }
 
 
+    private void Start()
+    {
+        canBeReactivated = GameManager.instance.canReactivate;
+    }
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (active) // if checkpoint already active
+        if (active && canBeReactivated == false) // if checkpoint already active
             return; 
 
         Player player = collision.GetComponent<Player>();
