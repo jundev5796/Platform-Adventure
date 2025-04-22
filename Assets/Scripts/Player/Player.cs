@@ -109,15 +109,18 @@ public class Player : MonoBehaviour
 
 
         StartCoroutine(KnockbackRoutine());
-        anim.SetTrigger("Knockback");
         rb.linearVelocity = new Vector2(knockbackPower.x * -facingDir, knockbackPower.y);
     }
 
     private IEnumerator KnockbackRoutine()
     {
         isKnocked = true;
+        anim.SetBool("isKnocked", true);
+
         yield return new WaitForSeconds(knockbackDuration);
+        
         isKnocked = false;
+        anim.SetBool("isKnocked", false);
     }
 
     public void Die() 
