@@ -4,6 +4,7 @@ using UnityEngine;
 public class Trap_Saw : MonoBehaviour
 {
     private Animator anim;
+    private SpriteRenderer sr;
 
     [SerializeField] private float moveSpeed = 3;
     [SerializeField] private float cooldown = 1;
@@ -16,6 +17,7 @@ public class Trap_Saw : MonoBehaviour
     private void Awake()
     {
         anim = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
     }
 
 
@@ -54,5 +56,6 @@ public class Trap_Saw : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         canMove = true;
+        sr.flipX = !sr.flipX;
     }
 }
