@@ -11,6 +11,7 @@ public class Trap_Saw : MonoBehaviour
     [SerializeField] private Transform[] wayPoint;
 
     public int wayPointIndex = 1;
+    public int moveDirection = 1;
     private bool canMove = true;
 
 
@@ -38,13 +39,10 @@ public class Trap_Saw : MonoBehaviour
 
         if (Vector2.Distance(transform.position, wayPoint[wayPointIndex].position) < 0.1f)
         {
-            wayPointIndex++;
+            if (wayPointIndex == wayPoint.Length - 1 || wayPointIndex == 0)
+                moveDirection = moveDirection * -1;
 
-            if (wayPointIndex >= wayPoint.Length)
-            {
-                wayPointIndex = 0;
-                StartCoroutine(StopMovement(cooldown));
-            }
+            wayPointIndex = wayPointIndex + moveDirection;
         }
     }
 
