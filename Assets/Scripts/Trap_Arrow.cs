@@ -7,9 +7,32 @@ public class Trap_Arrow : Trap_Trampoline
     [SerializeField] private bool rotationRight;
     [SerializeField] private float rotationSpeed = 120;
     private int direction = -1;
+    [Space]
+    [SerializeField] private float scaleUpSpeed = 10;
+    [SerializeField] private Vector3 targetScale;
+
+
+    private void Start()
+    {
+        transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+    }
 
 
     private void Update()
+    {
+        HandleScaleUp();
+        HandleRotation();
+    }
+
+
+    private void HandleScaleUp()
+    {
+        if (transform.localScale.x < targetScale.x)
+            transform.localScale = Vector3.Lerp(transform.localScale, targetScale, scaleUpSpeed * Time.deltaTime);
+    }
+
+
+    private void HandleRotation()
     {
         direction = rotationRight ? -1 : 1;
 

@@ -18882,6 +18882,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Trap_Arrow
       objectReference: {fileID: 0}
+    - target: {fileID: 7764116949569266708, guid: b9cc41608f6920a4e907370e4142a54f, type: 3}
+      propertyPath: targetScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764116949569266708, guid: b9cc41608f6920a4e907370e4142a54f, type: 3}
+      propertyPath: targetScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764116949569266708, guid: b9cc41608f6920a4e907370e4142a54f, type: 3}
+      propertyPath: targetScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
