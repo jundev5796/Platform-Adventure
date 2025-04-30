@@ -3,6 +3,7 @@ using UnityEngine;
 public class Trap_Arrow : Trap_Trampoline
 {
     [Header("Additional info")]
+    [SerializeField] private float cooldown;
     [SerializeField] private bool rotationRight;
     [SerializeField] private float rotationSpeed = 120;
     private int direction = -1;
@@ -16,5 +17,12 @@ public class Trap_Arrow : Trap_Trampoline
     }
 
 
-    private void DestroyMe() => Destroy(gameObject);
+    private void DestroyMe() 
+    {
+        GameObject arrowPrefab = GameManager.instance.arrowPreFab;
+
+        GameManager.instance.CreateObject(arrowPrefab, transform, cooldown);
+
+        Destroy(gameObject);
+    } 
 }
