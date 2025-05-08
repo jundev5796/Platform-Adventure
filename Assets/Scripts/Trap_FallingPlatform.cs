@@ -2,11 +2,26 @@ using UnityEngine;
 
 public class Trap_FallingPlatform : MonoBehaviour
 {
+    private Animator anim;
+    private Rigidbody2D rb;
+    private BoxCollider2D[] colliders;
+
     [SerializeField] private float speed = 0.75f;
     [SerializeField] private float travelDistance;
     private Vector3[] wayPoints;
     private int wayPointIndex;
     public bool canMove;
+
+    [Header("Platform fall details")]
+    [SerializeField] private float fallDelay = 0.5f;
+
+
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        colliders = GetComponents<BoxCollider2D>();
+    }
 
 
     private void Start()
@@ -54,6 +69,23 @@ public class Trap_FallingPlatform : MonoBehaviour
         Player player = collision.gameObject.GetComponent<Player>();
 
         if (player != null)
-            Debug.Log("Platform should fall");
+        {
+            Invoke(nameof(SwitchOffPlatform), fallDelay);
+        }
+    }
+
+
+    private void SwitchOffPlatform()
+    {
+        anim.SetTrigger("deactivate");
+
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.gravityScale = 3.5f;
+        rb.linearDamping = 0.5f;
+
+        foreach (BoxCollider2D collider in colliders)
+        {
+            collider.enabled = false;
+        }
     }
 }
