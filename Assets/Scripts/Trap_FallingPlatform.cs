@@ -47,4 +47,13 @@ public class Trap_FallingPlatform : MonoBehaviour
                 wayPointIndex = 0;
         }
     }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Player player = collision.gameObject.GetComponent<Player>();
+
+        if (player != null)
+            Debug.Log("Platform should fall");
+    }
 }
